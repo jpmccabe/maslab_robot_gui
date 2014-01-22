@@ -18,6 +18,9 @@ public class RobotModel {
     private final Ultrasonic ultrasonic_4;
     private final Ultrasonic ultrasonic_5;
     private final Ultrasonic ultrasonic_6;
+    private final AnalogInput irSensor_1;
+    private final AnalogInput irSensor_2;
+    private final AnalogInput irSensor_3;
     private final Encoder leftEncoder;
     private final Encoder rightEncoder;
     private final MapleComm comm;
@@ -28,7 +31,7 @@ public class RobotModel {
     private static final int leftMotorPWMPin = 4;
     private static final int rightMotorDirPin = 7;
     private static final int rightMotorPWMPin = 6;
-    private static final int rollerMotorPWMPin = 5;
+    private static final int rollerMotorPWMPin = 3;
     
     private static final int ultrasonic_1_triggerPin = 23;
     private static final int ultrasonic_1_echoPin = 37;
@@ -42,6 +45,10 @@ public class RobotModel {
     private static final int ultrasonic_5_echoPin = 32;
     private static final int ultrasonic_6_triggerPin = 35;
     private static final int ultrasonic_6_echoPin = 34;
+    
+    private static final int IR_1_PIN = 15;
+    private static final int IR_2_PIN = 16;
+    private static final int IR_3_PIN = 17;
     
     private static final int leftEncoderPinA = 0;
     private static final int leftEncoderPinB = 0;
@@ -72,14 +79,21 @@ public class RobotModel {
         ultrasonic_5 = new Ultrasonic(ultrasonic_5_triggerPin, ultrasonic_5_echoPin);
         ultrasonic_6 = new Ultrasonic(ultrasonic_6_triggerPin, ultrasonic_6_echoPin);
         
+        irSensor_1 = new AnalogInput(IR_1_PIN);
+        irSensor_2 = new AnalogInput(IR_2_PIN);
+        irSensor_3 = new AnalogInput(IR_3_PIN);
+        
         leftEncoder = new Encoder(leftEncoderPinA, leftEncoderPinB);
         rightEncoder = new Encoder(rightEncoderPinA, rightEncoderPinB);
         
         comm = new MapleComm();
         comm.registerDevice(spiralLiftMotor);
-        //comm.registerDevice(leftMotor);
-        //comm.registerDevice(rightMotor);
-        //comm.registerDevice(rollerMotor);
+        comm.registerDevice(leftMotor);
+        comm.registerDevice(rightMotor);
+        comm.registerDevice(rollerMotor);
+        comm.registerDevice(irSensor_1);
+        comm.registerDevice(irSensor_2);
+        comm.registerDevice(irSensor_3);
         //comm.registerDevice(leftEncoder);
         //comm.registerDevice(rightEncoder);
         
@@ -278,6 +292,23 @@ public class RobotModel {
         readings.add(ultrasonic_4.getDistance());
         readings.add(ultrasonic_5.getDistance());
         readings.add(ultrasonic_6.getDistance());
+        
+        return readings;
+    }
+    
+    
+    /**
+     * Returns the readings of all IR sensors.
+     * @return list of readings such that list.get(IRSensor_index - 1)
+     * is the sensor reading for the IR sensor with the index IRSesnor_index.
+     */
+    synchronized public List<Float> getIRReadings(){
+        List<Float> readings = new ArrayList<Float>();
+        
+        comm.updateSensorData();
+        readings.add(irSensor_1.getValue());
+        readings.add(irSensor_2.getValue());
+        readings.add(irSensor_3.getValue());
         
         return readings;
     }
