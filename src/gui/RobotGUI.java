@@ -9,7 +9,7 @@ public class RobotGUI extends JFrame{
     private final RollerToolbar rollerToolbar;
     private final DriveMotorsToolbar driveMotorsToolbar;
     private final AllStopToolbar allStopToolbar;
-    //private final EncoderToolbar encoderToolbar;
+    private final IRToolbar irToolbar;
     private final RobotModel robotModel;
   
     
@@ -18,20 +18,14 @@ public class RobotGUI extends JFrame{
         rollerToolbar = new RollerToolbar();
         driveMotorsToolbar = new DriveMotorsToolbar();
         allStopToolbar = new AllStopToolbar();
-        //encoderToolbar = new EncoderToolbar();
-        
-        //JPanel jframe = new JPanel();
-        //jframe.add(encoderToolbar, BorderLayout.WEST);
-        
+        irToolbar = new IRToolbar();
+
         this.add(spiralToolbar,BorderLayout.NORTH);
         this.add(rollerToolbar, BorderLayout.WEST);
+        this.add(irToolbar, BorderLayout.CENTER);
         this.add(driveMotorsToolbar,BorderLayout.SOUTH);
-        //this.add(ultrasonicToolbar, BorderLayout.CENTER);
-        //this.add(encoderToolbar, BorderLayout.CENTER);
-        //this.add(jframe,BorderLayout.CENTER);
         this.add(allStopToolbar, BorderLayout.EAST);
         
- 
         robotModel = new RobotModel();
         
         this.setTitle("Robot Mission Control");
@@ -42,7 +36,7 @@ public class RobotGUI extends JFrame{
         rollerToolbar.setRobotModel(robotModel);
         driveMotorsToolbar.setRobotModel(robotModel);
         allStopToolbar.setRobotModel(robotModel);
-        //encoderToolbar.setRobotModel(robotModel);
+        irToolbar.setRobotModel(robotModel);
     }
     
     
