@@ -59,7 +59,7 @@ public class IRToolbar extends JPanel{
         Thread updateReadings = new Thread(new Runnable(){
             public void run(){
                 while(true){
-                    final List<Double> readings = robotModel.getIRReadings();
+                    final List<Float> readings = robotModel.getIRReadings();
                     SwingUtilities.invokeLater(new Runnable(){
                         public void run(){
                             for(int i=0; i < 3; i++){
@@ -79,3 +79,5 @@ public class IRToolbar extends JPanel{
         
         updateReadings.start();
      }
+    
+}
